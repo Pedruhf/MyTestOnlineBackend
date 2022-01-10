@@ -13,7 +13,7 @@ class GetAnswerProfessorUseCase {
     const answers = await this.answersRepository.findAll();
 
     const userAnswers = answers.filter(answer => {
-      if (answer.assessment.user.valueOf() === userId as unknown as mongoose.Schema.Types.ObjectId) {
+      if ((answer.assessment as any).user.valueOf() === userId as unknown as mongoose.Schema.Types.ObjectId) {
         return answer;
       }
     });

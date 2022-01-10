@@ -15,7 +15,7 @@ class CreateAnswerUseCase {
 
     allAnswers.forEach(answer => {
       if (
-        answer.assessment._id.valueOf() === data.assessment &&
+        (answer.assessment as any)._id.valueOf() === data.assessment &&
         answer.user.valueOf() === userId as unknown as mongoose.Schema.Types.ObjectId) {
         throw new Error("Você já respondeu esta avaliação");
       }

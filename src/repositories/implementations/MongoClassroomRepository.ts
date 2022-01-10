@@ -9,7 +9,7 @@ class MongoClassroomRepository implements IClassroomRepository {
 
   async findById(id: string): Promise<Classroom> {
     const classroom = await (await mongoClassroom.findById(id).populate(["user", "assessment"])).populate("assessment.questions");
-    classroom.assessment.user = undefined;
+    (classroom.assessment as any).user = undefined;
     return classroom;
   }
 
