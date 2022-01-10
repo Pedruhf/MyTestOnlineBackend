@@ -1,4 +1,4 @@
-const baseURL = "http://localhost:3333";
+const baseURL = process.env.APP_URL;
 
 function resetedPasswordHTML(name: string, newPassword: string): string {
   return `

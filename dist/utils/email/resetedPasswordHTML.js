@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.resetedPasswordHTML = void 0;
-const baseURL = "http://localhost:3333";
+const baseURL = process.env.APP_URL;
 function resetedPasswordHTML(name, newPassword) {
     return `
   <!DOCTYPE html>

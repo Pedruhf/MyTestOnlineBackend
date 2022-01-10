@@ -1,4 +1,4 @@
-const baseURL = "http://localhost:3333";
+const baseURL = process.env.APP_URL;
 
 function forgotPasswordHTML(token: string, name: string): string {
   return `
