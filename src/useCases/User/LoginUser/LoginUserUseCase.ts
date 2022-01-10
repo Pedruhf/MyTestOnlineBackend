@@ -1,0 +1,38 @@
+import { IUsersRepository } from "../../../repositories/IUsersRepository";
+import bcrypt from "bcrypt";
+import { LoginUserResponseDTO } from "./LoginUserDTO";
+import { generateToken } from "../../../utils/generateToken";
+
+class LoginUserUseCase {
+  private usersRepository: IUsersRepository;
+
+  constructor(usersRepository: IUsersRepository) {
+    this.usersRepository = usersRepository;
+  }
+
+  async execute(email: string, password: string): Promise<LoginUserResponseDTO> {
+    const user = await this.usersRepository.findByEmail(email);
+    if (!user) {
+      throw new Error("E-mail inválido");
+    }
+
+    const equalsPassword = bcrypt.compareSync(password, user.password);
+
+    if (!equalsPassword) {
+      throw new Error("Senha incorreta");
+    }
+
+    if (!user.emailConfirmed) {
+      throw new Error("Confirmação de e-mail pendente");
+    }
+
+    user.password = undefined;
+
+    return {
+      user,
+      token: generateToken({ id: user._id }),
+    };
+  }
+}
+
+export { LoginUserUseCase };
