@@ -10,7 +10,7 @@ const answerRoutes = Router();
 
 answerRoutes.use(authUser);
 
-answerRoutes.get("/", professorUser, (req, res) => {
+answerRoutes.get("/:assessmentId", professorUser, (req, res) => {
   return getAnswerProfessorController.handle(req, res);
 });
 

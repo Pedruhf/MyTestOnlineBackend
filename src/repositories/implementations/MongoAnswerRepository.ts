@@ -8,12 +8,12 @@ class MongoAnswerRepository implements IAnswersRepository {
   }
 
   async findById(id: string): Promise<Answer> {
-    const answer = await mongoAnswer.findById(id).populate("assessment");
+    const answer = await mongoAnswer.findById(id).populate(["user", "assessment"]);
     return answer;
   }
 
   async findAll(): Promise<Answer[]> {
-    const answers = await mongoAnswer.find().populate("assessment");
+    const answers = await mongoAnswer.find().populate(["user", "assessment"]);
     return answers;
   }
 

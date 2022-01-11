@@ -7,8 +7,9 @@ class GetAnswerProfessorController {
     }
     async handle(req, res) {
         const userId = req.userId;
+        const { assessmentId } = req.params;
         try {
-            const answers = await this.getAnswerUseCase.execute(userId);
+            const answers = await this.getAnswerUseCase.execute(userId, assessmentId);
             return res.send(answers);
         }
         catch (error) {

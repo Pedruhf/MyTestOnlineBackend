@@ -8,11 +8,11 @@ class MongoAnswerRepository {
         return newAnswer;
     }
     async findById(id) {
-        const answer = await AnswerModel_1.mongoAnswer.findById(id).populate("assessment");
+        const answer = await AnswerModel_1.mongoAnswer.findById(id).populate(["user", "assessment"]);
         return answer;
     }
     async findAll() {
-        const answers = await AnswerModel_1.mongoAnswer.find().populate("assessment");
+        const answers = await AnswerModel_1.mongoAnswer.find().populate(["user", "assessment"]);
         return answers;
     }
     async update(id, answer) {

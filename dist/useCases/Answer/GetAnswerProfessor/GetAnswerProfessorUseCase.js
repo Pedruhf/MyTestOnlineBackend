@@ -5,14 +5,11 @@ class GetAnswerProfessorUseCase {
     constructor(answersRepository) {
         this.answersRepository = answersRepository;
     }
-    async execute(userId) {
+    async execute(userId, assessmentId) {
         const answers = await this.answersRepository.findAll();
-        const userAnswers = answers.filter(answer => {
-            if (answer.assessment.user.valueOf() === userId) {
-                return answer;
-            }
-        });
-        return userAnswers;
+        const filteredAnswers = answers.filter(answer => answer.assessment._id.valueOf() === assessmentId &&
+            answer.assessment.user.valueOf() === userId);
+        return filteredAnswers;
     }
 }
 exports.GetAnswerProfessorUseCase = GetAnswerProfessorUseCase;

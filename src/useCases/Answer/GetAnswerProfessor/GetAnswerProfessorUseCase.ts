@@ -9,15 +9,14 @@ class GetAnswerProfessorUseCase {
     this.answersRepository = answersRepository;
   }
 
-  async execute(userId: string): Promise<Answer[]> {
+  async execute(userId: string, assessmentId: string): Promise<Answer[]> {
     const answers = await this.answersRepository.findAll();
+    const filteredAnswers = answers.filter(answer =>
+      ((answer.assessment as any)._id.valueOf() as unknown as string) === assessmentId &&
+      (answer.assessment as any).user.valueOf() === userId
+      );
 
-    const userAnswers = answers.filter(answer => {
-      if ((answer.assessment as any).user.valueOf() === userId as unknown as mongoose.Schema.Types.ObjectId) {
-        return answer;
-      }
-    });
-    return userAnswers;
+    return filteredAnswers;
   }
 }
 
