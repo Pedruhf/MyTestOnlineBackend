@@ -1,10 +1,10 @@
-import { Question } from "../models/QuestionModel";
+import { IQuestion } from "../models/QuestionModel";
 
 interface IQuestionsRepository {
-  save(question: Question): Promise<Question>;
-  findById(id: string): Promise<Question>;
-  findAll(): Promise<Question[]>;
-  update(id: string, question: Omit<Question, "assessment">): Promise<void>;
+  save(question: IQuestion): Promise<IQuestion>;
+  findById(id: string): Promise<IQuestion>;
+  findAll(): Promise<IQuestion[]>;
+  update(id: string, question: Omit<IQuestion, "_id" | "assessment">): Promise<void>;
   delete(id: string): Promise<void>;
 }
 

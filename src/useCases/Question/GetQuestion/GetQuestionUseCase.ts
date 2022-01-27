@@ -10,7 +10,12 @@ class GetQuestionUseCase {
 
   async execute(id?: string): Promise<Question | Question[]> {
     if (id) {
-      return await this.questionsRepository.findById(id);
+      const assessment = await this.questionsRepository.findById(id);
+      if (!assessment) {
+        throw new Error("Questão não encontrada");
+      }
+      
+      return assessment;
     }
 
     return await this.questionsRepository.findAll();

@@ -1,48 +1,35 @@
-import mongoose from "mongoose";
+import { v4 } from "uuid";
 
-type Alternative = {
+type IAlternative = {
   correct: boolean;
   description: string;
 }
 
-interface Question {
-  _id?: mongoose.Schema.Types.ObjectId;
+interface IQuestion {
+  _id: string;
   title?: string;
   description: string;
-  alternatives: Alternative[];
-  assessment: mongoose.Schema.Types.ObjectId;
+  alternatives: IAlternative[];
+  assessment: string;
   createdAt?: Date | number;
 }
 
-const questionSchema = new mongoose.Schema<Question>({
-  title: {
-    type: String,
-  },
-  description: {
-    type: String,
-    required: true
-  },
-  alternatives: [{
-    correct: {
-      type: Boolean,
-      default: false,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-  }],
-  assessment: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Assessment",
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+class Question implements IQuestion {
+  readonly _id: string;
+  title?: string;
+  description: string;
+  alternatives: IAlternative[];
+  assessment: string;
+  createdAt?: Date | number;
 
-const mongoQuestion = mongoose.model("Question", questionSchema);
+  constructor(question: Omit<IQuestion, "_id">) {
+    this._id = v4();
+    this.title = question.title;
+    this.description = question.description;
+    this.alternatives = question.alternatives;
+    this.assessment = question.assessment;
+    this.createdAt = Date.now();
+  }
+}
 
-export { mongoQuestion, Question, Alternative };
+export { Question, IQuestion, IAlternative };

@@ -1,9 +1,9 @@
-import { Alternative } from "../../../models/QuestionModel";
+import { IAlternative } from "../../../models/QuestionModel";
 
 interface IUpdateQuestionRequestDTO {
   title?: string;
   description: string;
-  alternatives: Alternative[];
+  alternatives: IAlternative[];
 }
 
 export { IUpdateQuestionRequestDTO };

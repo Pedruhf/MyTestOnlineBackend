@@ -9,7 +9,7 @@ interface IAssessment {
   createdAt?: Date | number;
 }
 
-class Assessment {
+class Assessment implements IAssessment {
   readonly _id: string;
   title: string;
   description?: string;

@@ -1,11 +1,10 @@
-import mongoose from "mongoose";
-import { Alternative } from "../../../models/QuestionModel";
+import { IAlternative } from "../../../models/QuestionModel";
 
 interface ICreateQuestionRequestDTO {
   title?: string;
   description: string;
-  alternatives: Alternative[];
-  assessment: mongoose.Schema.Types.ObjectId;
+  alternatives: IAlternative[];
+  assessment: string;
 }
 
 export { ICreateQuestionRequestDTO };

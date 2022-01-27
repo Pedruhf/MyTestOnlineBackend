@@ -1,3 +1,4 @@
+import { Question } from "../../../models/QuestionModel";
 import { IAssessmentRepository } from "../../../repositories/IAssessmentsRepository";
 import { IQuestionsRepository } from "../../../repositories/IQuestionsRepository";
 import { ICreateQuestionRequestDTO } from "./CreateQuestionRequestDTO";
@@ -12,14 +13,15 @@ class CreateQuestionUseCase {
   }
 
   async execute(data: ICreateQuestionRequestDTO): Promise<void> {
-    const assessment = await this.assessmentsRepository.findById(data.assessment as unknown as string);
+    const assessment = await this.assessmentsRepository.findById(data.assessment);
     if (!assessment) {
       throw new Error("Avaliação não encontrada");
     }
 
-    const question = await this.questionsRepository.save(data);
+    const question = new Question(data);
+    await this.questionsRepository.save(question);
 
-    await this.assessmentsRepository.update(data.assessment as unknown as string, {
+    await this.assessmentsRepository.update(data.assessment, {
       title: assessment.title,
       description: assessment.description,
       questions: [...assessment.questions, question._id],

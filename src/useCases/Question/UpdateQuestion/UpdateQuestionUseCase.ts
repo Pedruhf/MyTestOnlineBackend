@@ -1,4 +1,3 @@
-import { Question } from "../../../models/QuestionModel";
 import { IQuestionsRepository } from "../../../repositories/IQuestionsRepository";
 import { IUpdateQuestionRequestDTO } from "./UpdateQuestionRequestDTO";
 

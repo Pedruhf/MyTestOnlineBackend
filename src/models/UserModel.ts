@@ -15,7 +15,7 @@ interface IUser {
   createdAt?: Date | number;
 }
 
-class User {
+class User implements IUser {
   readonly _id: string;
   email: string;
   password: string;
