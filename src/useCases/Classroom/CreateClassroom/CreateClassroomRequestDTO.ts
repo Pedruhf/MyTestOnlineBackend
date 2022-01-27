@@ -1,8 +1,6 @@
-import mongoose from "mongoose";
-
 interface ICreateClassroomRequestDTO {
   name: string;
-  assessment: mongoose.Schema.Types.ObjectId;
+  assessment: string;
 }
 
 export { ICreateClassroomRequestDTO };

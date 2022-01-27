@@ -1,29 +1,33 @@
-import { Classroom, mongoClassroom } from "../../models/ClassroomModel";
+import { IClassroom } from "../../models/ClassroomModel";
 import { IClassroomRepository } from "../IClassroomsRepository";
+import { mongoClassroomModel } from "./schemas/MongoClassroomSchema";
 
 class MongoClassroomRepository implements IClassroomRepository {
-  async save(classroom: Classroom): Promise<Classroom> {
-    const newClassroom = await (await (await mongoClassroom.create(classroom)).populate(["user", "assessment"])).populate("assessment.questions");
+  async save(classroom: IClassroom): Promise<IClassroom> {
+    const newClassroom = await (await (await mongoClassroomModel.create(classroom))?.populate(["user", "assessment"]))?.populate("assessment.questions");
     return newClassroom;
   }
 
-  async findById(id: string): Promise<Classroom> {
-    const classroom = await (await mongoClassroom.findById(id).populate(["user", "assessment"])).populate("assessment.questions");
-    (classroom.assessment as any).user = undefined;
+  async findById(id: string): Promise<IClassroom> {
+    const classroom = await (await (await mongoClassroomModel.findById(id))?.populate(["user", "assessment"]))?.populate("assessment.questions");
+    if (classroom) {
+      (classroom.assessment as any).user = undefined;
+    }
+    
     return classroom;
   }
 
-  async findAll(): Promise<Classroom[]> {
-    const classroom = await mongoClassroom.find();
+  async findAll(): Promise<IClassroom[]> {
+    const classroom = await mongoClassroomModel.find();
     return classroom;
   }
 
-  async update(id: string, classroom: Omit<Classroom, "user">): Promise<void> {
-    await mongoClassroom.findByIdAndUpdate(id, classroom);
+  async update(id: string, classroom: Omit<IClassroom, "user">): Promise<void> {
+    await mongoClassroomModel.findByIdAndUpdate(id, classroom);
   }
 
   async delete(id: string): Promise<void> {
-    await mongoClassroom.findByIdAndDelete(id);
+    await mongoClassroomModel.findByIdAndDelete(id);
   }
 }
 

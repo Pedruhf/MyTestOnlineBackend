@@ -22,8 +22,8 @@ class GetClassroomUseCase {
     if (!classrooms) {
       throw new Error("Avaliações não encontradas");
     }
-    
-    return classrooms.filter(classroom => (classroom.user as unknown as Classroom)._id.valueOf() === userId);
+
+    return classrooms.filter(classroom => classroom.user === userId);
   }
 }
 

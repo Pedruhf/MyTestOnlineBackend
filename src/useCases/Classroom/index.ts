@@ -1,4 +1,5 @@
 import { MongoClassroomRepository } from "../../repositories/implementations/MongoClassroomRepository";
+import { assessmentsRepository } from "../Assessment";
 
 import { GetClassroomUseCase } from "./GetClassroom/GetClassroomUseCase";
 import { GetClassroomController } from "./GetClassroom/GetClassroomController";
@@ -17,10 +18,10 @@ const classroomsRepository = new MongoClassroomRepository();
 const getClassroomUseCase = new GetClassroomUseCase(classroomsRepository);
 const getClassroomController = new GetClassroomController(getClassroomUseCase);
 
-const createClassroomUseCase = new CreateClassroomUseCase(classroomsRepository);
+const createClassroomUseCase = new CreateClassroomUseCase(classroomsRepository, assessmentsRepository);
 const createClassroomController = new CreateClassroomController(createClassroomUseCase);
 
-const updateClassroomUseCase = new UpdateClassroomUseCase(classroomsRepository);
+const updateClassroomUseCase = new UpdateClassroomUseCase(classroomsRepository, assessmentsRepository);
 const updateClassroomController = new UpdateClassroomController(updateClassroomUseCase);
 
 const deleteClassroomUseCase = new DeleteClassroomUseCase(classroomsRepository);

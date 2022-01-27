@@ -1,23 +1,31 @@
 import mongoose from "mongoose";
 import { Classroom } from "../../../models/ClassroomModel";
+import { IAssessmentRepository } from "../../../repositories/IAssessmentsRepository";
 import { IClassroomRepository } from "../../../repositories/IClassroomsRepository";
 import { ICreateClassroomRequestDTO } from "./CreateClassroomRequestDTO";
 
 class CreateClassroomUseCase {
   private classroomsRepository: IClassroomRepository;
+  private assessmentsRepository: IAssessmentRepository;
 
-  constructor(ClassroomsRepository: IClassroomRepository) {
+  constructor(ClassroomsRepository: IClassroomRepository, assessmentsRepository: IAssessmentRepository) {
     this.classroomsRepository = ClassroomsRepository;
+    this.assessmentsRepository = assessmentsRepository;
   }
 
   async execute(userId: string, data: ICreateClassroomRequestDTO): Promise<Classroom> {
-    const classroom = await this.classroomsRepository.save({
+    const assessment = await this.assessmentsRepository.findById(data.assessment);
+    if (!assessment) {
+      throw new Error("Avaliação não encontrada");
+    }
+
+    const classroom = new Classroom({
       name: data.name,
       assessment: data.assessment,
-      user: userId as unknown as mongoose.Schema.Types.ObjectId,
+      user: userId,
     });
-
-    return classroom;
+    
+    return await this.classroomsRepository.save(classroom);
   }
 }
 

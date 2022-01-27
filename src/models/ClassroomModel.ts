@@ -1,34 +1,27 @@
-import mongoose from "mongoose";
+import { v4 } from "uuid";
 
-interface Classroom {
-  _id?: mongoose.Schema.Types.ObjectId;
+interface IClassroom {
+  _id: string;
   name: string;
-  user: mongoose.Schema.Types.ObjectId;
-  assessment: mongoose.Schema.Types.ObjectId;
+  user: string;
+  assessment: string;
   createdAt?: Date | number;
 }
 
-const classroomSchema = new mongoose.Schema<Classroom>({
-  name: {
-    type: String,
-    required: true,
-  },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  assessment: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Assessment",
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+class Classroom implements IClassroom {
+  _id: string;
+  name: string;
+  user: string;
+  assessment: string;
+  createdAt?: number | Date;
 
-const mongoClassroom = mongoose.model("Classroom", classroomSchema);
+  constructor(classroom: Omit<IClassroom, "_id">) {
+    this._id = v4();
+    this.name = classroom.name;
+    this.user = classroom.user;
+    this.assessment = classroom.assessment;
+    this.createdAt = Date.now();
+  }
+}
 
-export { mongoClassroom, Classroom };
+export { Classroom, IClassroom };
