@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateUserUseCase = void 0;
+const UserModel_1 = require("../../../models/UserModel");
 const CreateUserValidateFields_1 = require("./CreateUserValidateFields");
 class CreateUserUseCase {
     constructor(usersRepository) {
@@ -12,7 +13,8 @@ class CreateUserUseCase {
             throw new Error("Este usuário já está cadastrado");
         }
         (0, CreateUserValidateFields_1.createUserValidateFields)(data);
-        await this.usersRepository.save(data);
+        const user = new UserModel_1.User(data);
+        await this.usersRepository.save(user);
     }
 }
 exports.CreateUserUseCase = CreateUserUseCase;

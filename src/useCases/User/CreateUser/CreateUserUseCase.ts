@@ -1,3 +1,4 @@
+import { User } from "../../../models/UserModel";
 import { IUsersRepository } from "../../../repositories/IUsersRepository";
 import { ICreateUserRequestDTO } from "./CreateUseDTO";
 import { createUserValidateFields } from "./CreateUserValidateFields";
@@ -17,7 +18,8 @@ class CreateUserUseCase {
 
     createUserValidateFields(data);
 
-    await this.usersRepository.save(data);
+    const user = new User(data);
+    await this.usersRepository.save(user);
   }
 }
 

@@ -1,5 +1,4 @@
 import { IUsersRepository } from "../../../repositories/IUsersRepository";
-import { mongoUser } from "../../../models/UserModel";
 import bcrypt from "bcrypt";
 import { generatePassword } from "../../../utils/generateNewPassword";
 import { transporter as mailer } from "../../../services/nodeMailer";
@@ -13,23 +12,23 @@ class ResetPasswordUseCase {
   }
 
   async execute(token: string): Promise<void> {
-    const user = await mongoUser.findOne({ passwordResetToken: token }).select("+passwordResetToken +passwordResetExpires");
+    const user = await this.usersRepository.findByResetToken(token);
     if (!user) {
       throw new Error("Usuário não encontrado");
     }
-
-    const now = (Number(new Date())) / 1000;
+    
+    const now = Date.now() / 1000;
     if (now > user.passwordResetExpires) {
       throw new Error("Token expirado");
     }
 
     const newPassword = generatePassword();
     const newPasswordEncrypted = bcrypt.hashSync(newPassword, 10);
-
+    
     user.password = newPasswordEncrypted;
     user.passwordResetExpires = now;
-
-    await this.usersRepository.update(user._id, user);
+    
+    await this.usersRepository.update(user.id, user);
 
     await mailer.sendMail({
       to: user.email,

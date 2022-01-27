@@ -1,4 +1,3 @@
-import { User } from "../../../models/UserModel";
 import { IUsersRepository } from "../../../repositories/IUsersRepository";
 import { UpdateUserRequestDTO } from "./UpdateUserDTO";
 

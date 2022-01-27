@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ResetPasswordUseCase = void 0;
-const UserModel_1 = require("../../../models/UserModel");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const generateNewPassword_1 = require("../../../utils/generateNewPassword");
 const nodeMailer_1 = require("../../../services/nodeMailer");
@@ -14,11 +13,11 @@ class ResetPasswordUseCase {
         this.usersRepository = usersRepository;
     }
     async execute(token) {
-        const user = await UserModel_1.mongoUser.findOne({ passwordResetToken: token }).select("+passwordResetToken +passwordResetExpires");
+        const user = await this.usersRepository.findByResetToken(token);
         if (!user) {
             throw new Error("Usuário não encontrado");
         }
-        const now = (Number(new Date())) / 1000;
+        const now = Date.now() / 1000;
         if (now > user.passwordResetExpires) {
             throw new Error("Token expirado");
         }
@@ -26,7 +25,7 @@ class ResetPasswordUseCase {
         const newPasswordEncrypted = bcrypt_1.default.hashSync(newPassword, 10);
         user.password = newPasswordEncrypted;
         user.passwordResetExpires = now;
-        await this.usersRepository.update(user._id, user);
+        await this.usersRepository.update(user.id, user);
         await nodeMailer_1.transporter.sendMail({
             to: user.email,
             from: process.env.MAIL_SENDER,

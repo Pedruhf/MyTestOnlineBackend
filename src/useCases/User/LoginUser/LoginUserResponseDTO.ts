@@ -1,8 +1,8 @@
 import { User } from "../../../models/UserModel";
 
-interface LoginUserResponseDTO {
+interface ILoginUserResponseDTO {
   user: User,
   token: string;
 }
 
-export { LoginUserResponseDTO };
+export { ILoginUserResponseDTO };

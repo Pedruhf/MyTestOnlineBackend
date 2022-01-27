@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ForgotPasswordUseCase = void 0;
-const UserModel_1 = require("../../../models/UserModel");
 const nodeMailer_1 = require("../../../services/nodeMailer");
 const generateToken_1 = require("../../../utils/generateToken");
 const forgotPasswordHTML_1 = require("../../../utils/email/forgotPasswordHTML");
@@ -10,15 +9,15 @@ class ForgotPasswordUseCase {
         this.usersRepository = usersRepository;
     }
     async execute(email) {
-        const user = await UserModel_1.mongoUser.findOne({ email }).select("+passwordResetToken");
+        const user = await this.usersRepository.findByEmail(email);
         if (!user) {
             throw new Error("Usuário não encontrado");
         }
-        const passwordResetToken = (0, generateToken_1.generateToken)({ id: user._id }, 3600);
-        const passwordResetExpires = ((Number(new Date())) / 1000) + 3600;
+        const passwordResetToken = (0, generateToken_1.generateToken)({ id: user.id }, 3600);
+        const passwordResetExpires = (Date.now() / 1000) + 3600;
         user.passwordResetToken = passwordResetToken;
         user.passwordResetExpires = passwordResetExpires;
-        await this.usersRepository.update(user._id, user);
+        await this.usersRepository.update(user.id, user);
         await nodeMailer_1.transporter.sendMail({
             to: email,
             from: process.env.MAIL_SENDER,

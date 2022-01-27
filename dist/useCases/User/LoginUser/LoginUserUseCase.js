@@ -4,8 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LoginUserUseCase = void 0;
-const bcrypt_1 = __importDefault(require("bcrypt"));
 const generateToken_1 = require("../../../utils/generateToken");
+const bcrypt_1 = __importDefault(require("bcrypt"));
 class LoginUserUseCase {
     constructor(usersRepository) {
         this.usersRepository = usersRepository;
@@ -23,9 +23,10 @@ class LoginUserUseCase {
             throw new Error("Confirmação de e-mail pendente");
         }
         user.password = undefined;
+        console.log(user.id);
         return {
             user,
-            token: (0, generateToken_1.generateToken)({ id: user._id }),
+            token: (0, generateToken_1.generateToken)({ id: user.id }),
         };
     }
 }

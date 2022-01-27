@@ -1,7 +1,7 @@
 import { IUsersRepository } from "../../../repositories/IUsersRepository";
-import bcrypt from "bcrypt";
-import { LoginUserResponseDTO } from "./LoginUserDTO";
+import { ILoginUserResponseDTO } from "./LoginUserResponseDTO";
 import { generateToken } from "../../../utils/generateToken";
+import bcrypt from "bcrypt";
 
 class LoginUserUseCase {
   private usersRepository: IUsersRepository;
@@ -10,7 +10,7 @@ class LoginUserUseCase {
     this.usersRepository = usersRepository;
   }
 
-  async execute(email: string, password: string): Promise<LoginUserResponseDTO> {
+  async execute(email: string, password: string): Promise<ILoginUserResponseDTO> {
     const user = await this.usersRepository.findByEmail(email);
     if (!user) {
       throw new Error("E-mail inválido");
@@ -28,9 +28,11 @@ class LoginUserUseCase {
 
     user.password = undefined;
 
+    console.log(user.id);
+
     return {
       user,
-      token: generateToken({ id: user._id }),
+      token: generateToken({ id: user.id }),
     };
   }
 }

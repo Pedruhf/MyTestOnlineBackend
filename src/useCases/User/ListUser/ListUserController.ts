@@ -20,7 +20,6 @@ class ListUserController {
       return res.status(404).send({ message: error.message || "Usuário não encontrado"});
     }
   }
-  
 }
 
 export { ListUserController };

@@ -1,24 +1,28 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MongoUserRepository = void 0;
-const UserModel_1 = require("../../models/UserModel");
+const MongoUserSchema_1 = require("./schemas/MongoUserSchema");
 class MongoUserRepository {
     async findByEmail(email) {
-        const user = await UserModel_1.mongoUser.findOne({ email }).select("+password");
+        const user = await MongoUserSchema_1.mongoUserModel.findOne({ email }).select("+password");
         return user;
     }
     async findById(id) {
-        const user = await UserModel_1.mongoUser.findById(id).select("+password");
+        const user = await MongoUserSchema_1.mongoUserModel.findOne({ id }).select("+password");
+        return user;
+    }
+    async findByResetToken(token) {
+        const user = await MongoUserSchema_1.mongoUserModel.findOne({ passwordResetToken: token }).select("+passwordResetToken +passwordResetExpires");
         return user;
     }
     async save(user) {
-        await UserModel_1.mongoUser.create(user);
+        await MongoUserSchema_1.mongoUserModel.create(user);
     }
     async update(id, user) {
-        await UserModel_1.mongoUser.findByIdAndUpdate(id, user);
+        await MongoUserSchema_1.mongoUserModel.findOneAndUpdate({ id }, user);
     }
     async delete(id) {
-        await UserModel_1.mongoUser.findByIdAndDelete(id);
+        await MongoUserSchema_1.mongoUserModel.findOneAndDelete({ id });
     }
 }
 exports.MongoUserRepository = MongoUserRepository;

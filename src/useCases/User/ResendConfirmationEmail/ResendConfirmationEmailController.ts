@@ -18,7 +18,6 @@ class ResendConfirmationEmailController {
       return res.status(400).send({ error: error.message || "Erro ao tentar reenviar email de confirmação" });
     }
   }
-
 }
 
 export { ResendConfirmationEmailController };

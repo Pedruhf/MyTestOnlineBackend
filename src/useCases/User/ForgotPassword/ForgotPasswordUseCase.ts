@@ -1,5 +1,5 @@
 import { IUsersRepository } from "../../../repositories/IUsersRepository";
-import { mongoUser } from "../../../models/UserModel";
+import { mongoUserModel } from "../../../repositories/implementations/schemas/MongoUserSchema";
 import { transporter } from "../../../services/nodeMailer";
 import { generateToken } from "../../../utils/generateToken";
 import { forgotPasswordHTML } from "../../../utils/email/forgotPasswordHTML";
@@ -12,18 +12,18 @@ class ForgotPasswordUseCase {
   }
 
   async execute(email: string): Promise<void> {
-    const user = await mongoUser.findOne({ email }).select("+passwordResetToken");
+    const user = await this.usersRepository.findByEmail(email);
     if (!user) {
       throw new Error("Usuário não encontrado");
     }
 
-    const passwordResetToken = generateToken({ id: user._id }, 3600);
-    const passwordResetExpires = ((Number(new Date())) / 1000) + 3600;
+    const passwordResetToken = generateToken({ id: user.id }, 3600);
+    const passwordResetExpires = (Date.now() / 1000) + 3600;
 
     user.passwordResetToken = passwordResetToken;
     user.passwordResetExpires = passwordResetExpires;
 
-    await this.usersRepository.update(user._id, user);
+    await this.usersRepository.update(user.id, user);
     await transporter.sendMail({
       to: email,
       from: process.env.MAIL_SENDER,
