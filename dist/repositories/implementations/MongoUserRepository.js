@@ -8,7 +8,7 @@ class MongoUserRepository {
         return user;
     }
     async findById(id) {
-        const user = await MongoUserSchema_1.mongoUserModel.findOne({ id }).select("+password");
+        const user = await MongoUserSchema_1.mongoUserModel.findById(id).select("+password");
         return user;
     }
     async findByResetToken(token) {
@@ -19,10 +19,10 @@ class MongoUserRepository {
         await MongoUserSchema_1.mongoUserModel.create(user);
     }
     async update(id, user) {
-        await MongoUserSchema_1.mongoUserModel.findOneAndUpdate({ id }, user);
+        await MongoUserSchema_1.mongoUserModel.findByIdAndUpdate(id, user);
     }
     async delete(id) {
-        await MongoUserSchema_1.mongoUserModel.findOneAndDelete({ id });
+        await MongoUserSchema_1.mongoUserModel.findByIdAndDelete(id);
     }
 }
 exports.MongoUserRepository = MongoUserRepository;

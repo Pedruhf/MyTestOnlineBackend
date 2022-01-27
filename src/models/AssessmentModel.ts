@@ -1,37 +1,30 @@
-import mongoose from "mongoose";
+import { v4 } from "uuid";
 
-interface Assessment {
-  _id?: mongoose.Schema.Types.ObjectId;
+interface IAssessment {
+  _id: string;
   title: string;
   description?: string;
-  user: mongoose.Schema.Types.ObjectId;
-  questions: mongoose.Schema.Types.ObjectId[];
+  user: string;
+  questions: string[];
   createdAt?: Date | number;
 }
 
-const assessmentSchema = new mongoose.Schema<Assessment>({
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-  },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  questions: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Question",
-  }],
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+class Assessment {
+  readonly _id: string;
+  title: string;
+  description?: string;
+  user: string;
+  questions: string[];
+  createdAt?: Date | number;
 
-const mongoAssessment = mongoose.model("Assessment", assessmentSchema);
+  constructor(assessment: Omit<IAssessment, "_id">) {
+    this._id = v4();
+    this.title = assessment.title;
+    this.description = assessment.description;
+    this.user = assessment.user;
+    this.questions = assessment.questions;
+    this.createdAt = Date.now();
+  }
+}
 
-export { mongoAssessment, Assessment };
+export { Assessment, IAssessment };

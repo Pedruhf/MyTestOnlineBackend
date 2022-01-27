@@ -28,7 +28,7 @@ class ResetPasswordUseCase {
     user.password = newPasswordEncrypted;
     user.passwordResetExpires = now;
     
-    await this.usersRepository.update(user.id, user);
+    await this.usersRepository.update(user._id, user);
 
     await mailer.sendMail({
       to: user.email,

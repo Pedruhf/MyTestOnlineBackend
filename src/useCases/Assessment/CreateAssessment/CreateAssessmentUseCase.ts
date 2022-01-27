@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import { Assessment } from "../../../models/AssessmentModel";
 import { IAssessmentRepository } from "../../../repositories/IAssessmentsRepository";
 import { ICreateAssessmentRequestDTO } from "./CreateAssessmentRequestDTO";
 class CreateAssessmentUseCase {
@@ -17,11 +17,14 @@ class CreateAssessmentUseCase {
       throw new Error("A avaliação deve estar vinculada a algum usuário");
     }
 
-    await this.assessmentsRepository.save({
-      ...data,
-      user: userId as unknown as mongoose.Schema.Types.ObjectId,
+    const assessment = new Assessment({
+      title: data.title,
+      description: data.description,
+      user: userId,
       questions: [],
     });
+
+    await this.assessmentsRepository.save(assessment);
   }
 }
 

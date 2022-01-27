@@ -8,7 +8,7 @@ const uuid_1 = require("uuid");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 class User {
     constructor(user) {
-        this.id = (0, uuid_1.v4)();
+        this._id = (0, uuid_1.v4)();
         this.email = user.email;
         this.password = bcrypt_1.default.hashSync(user.password, 10);
         this.name = user.name;

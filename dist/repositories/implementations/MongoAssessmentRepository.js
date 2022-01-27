@@ -1,25 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MongoAssessmentRepository = void 0;
-const AssessmentModel_1 = require("../../models/AssessmentModel");
+const MongoAssessmentSchema_1 = require("./schemas/MongoAssessmentSchema");
 class MongoAssessmentRepository {
     async save(assessment) {
-        await AssessmentModel_1.mongoAssessment.create(assessment);
+        await MongoAssessmentSchema_1.mongoAssessmentModel.create(assessment);
     }
     async findById(id) {
-        const assessment = await AssessmentModel_1.mongoAssessment.findById(id).populate(["user", "questions"]);
+        const assessment = await MongoAssessmentSchema_1.mongoAssessmentModel.findById(id).populate(["user", "questions"]);
         return assessment;
     }
     async findAll() {
-        const assessments = await AssessmentModel_1.mongoAssessment.find().populate(["user", "questions"]);
+        const assessments = await MongoAssessmentSchema_1.mongoAssessmentModel.find().populate(["user", "questions"]);
         return assessments;
     }
     async update(id, assessment) {
-        const updateAssessment = await AssessmentModel_1.mongoAssessment.findByIdAndUpdate(id, assessment);
+        const updateAssessment = await MongoAssessmentSchema_1.mongoAssessmentModel.findByIdAndUpdate(id, assessment);
         return updateAssessment;
     }
     async delete(id) {
-        await AssessmentModel_1.mongoAssessment.findByIdAndDelete(id);
+        await MongoAssessmentSchema_1.mongoAssessmentModel.findByIdAndDelete(id);
     }
 }
 exports.MongoAssessmentRepository = MongoAssessmentRepository;

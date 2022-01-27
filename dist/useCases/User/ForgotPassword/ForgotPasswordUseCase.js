@@ -13,11 +13,11 @@ class ForgotPasswordUseCase {
         if (!user) {
             throw new Error("Usuário não encontrado");
         }
-        const passwordResetToken = (0, generateToken_1.generateToken)({ id: user.id }, 3600);
+        const passwordResetToken = (0, generateToken_1.generateToken)({ id: user._id }, 3600);
         const passwordResetExpires = (Date.now() / 1000) + 3600;
         user.passwordResetToken = passwordResetToken;
         user.passwordResetExpires = passwordResetExpires;
-        await this.usersRepository.update(user.id, user);
+        await this.usersRepository.update(user._id, user);
         await nodeMailer_1.transporter.sendMail({
             to: email,
             from: process.env.MAIL_SENDER,

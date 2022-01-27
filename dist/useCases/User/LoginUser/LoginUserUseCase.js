@@ -23,10 +23,9 @@ class LoginUserUseCase {
             throw new Error("Confirmação de e-mail pendente");
         }
         user.password = undefined;
-        console.log(user.id);
         return {
             user,
-            token: (0, generateToken_1.generateToken)({ id: user.id }),
+            token: (0, generateToken_1.generateToken)({ id: user._id }),
         };
     }
 }

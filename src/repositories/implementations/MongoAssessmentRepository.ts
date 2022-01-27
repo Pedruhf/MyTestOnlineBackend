@@ -1,30 +1,30 @@
-import { Assessment, mongoAssessment } from "../../models/AssessmentModel";
+import { IAssessment } from "../../models/AssessmentModel";
 import { IAssessmentRepository } from "../IAssessmentsRepository";
+import { mongoAssessmentModel } from "./schemas/MongoAssessmentSchema";
 
 class MongoAssessmentRepository implements IAssessmentRepository {
-  async save(assessment: Assessment): Promise<void> {
-    await mongoAssessment.create(assessment);
+  async save(assessment: IAssessment): Promise<void> {
+    await mongoAssessmentModel.create(assessment);
   }
 
-  async findById(id: string): Promise<Assessment> {
-    const assessment = await mongoAssessment.findById(id).populate(["user", "questions"]);
+  async findById(id: string): Promise<IAssessment> {
+    const assessment = await mongoAssessmentModel.findById(id).populate(["user", "questions"]);
     return assessment;
   }
 
-  async findAll(): Promise<Assessment[]> {
-    const assessments = await mongoAssessment.find().populate(["user", "questions"]);
+  async findAll(): Promise<IAssessment[]> {
+    const assessments = await mongoAssessmentModel.find().populate(["user", "questions"]);
     return assessments;
   }
 
-  async update(id: string, assessment: Assessment): Promise<Assessment> {
-    const updateAssessment = await mongoAssessment.findByIdAndUpdate(id, assessment);
+  async update(id: string, assessment: IAssessment): Promise<IAssessment> {
+    const updateAssessment = await mongoAssessmentModel.findByIdAndUpdate(id, assessment);
     return updateAssessment;
   }
 
   async delete(id: string): Promise<void> {
-    await mongoAssessment.findByIdAndDelete(id);
+    await mongoAssessmentModel.findByIdAndDelete(id);
   }
-  
 }
 
 export { MongoAssessmentRepository };

@@ -2,7 +2,7 @@ import { v4 } from "uuid";
 import bcrypt from "bcrypt";
 
 interface IUser {
-  id: string;
+  _id: string;
   email: string;
   password: string;
   name: string;
@@ -16,7 +16,7 @@ interface IUser {
 }
 
 class User {
-  readonly id: string;
+  readonly _id: string;
   email: string;
   password: string;
   name: string;
@@ -28,8 +28,8 @@ class User {
   passwordResetExpires?: number;
   createdAt?: number | Date;
 
-  constructor(user: Omit<IUser, "id">) {
-    this.id = v4();
+  constructor(user: Omit<IUser, "_id">) {
+    this._id = v4();
     this.email = user.email;
     this.password = bcrypt.hashSync(user.password, 10);
     this.name = user.name;

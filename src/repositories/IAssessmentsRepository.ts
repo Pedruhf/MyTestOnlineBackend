@@ -1,10 +1,10 @@
-import { Assessment } from "../models/AssessmentModel";
+import { IAssessment } from "../models/AssessmentModel";
 
 interface IAssessmentRepository {
-  save(assessment: Assessment): Promise<void>;
-  findById(id: string): Promise<Assessment>;
-  findAll(): Promise<Assessment[]>;
-  update(id: string, assessment: Omit<Assessment, 'user'>): Promise<Assessment>;
+  save(assessment: IAssessment): Promise<void>;
+  findById(id: string): Promise<IAssessment>;
+  findAll(): Promise<IAssessment[]>;
+  update(id: string, assessment: Omit<IAssessment, "user" | "_id">): Promise<IAssessment>;
   delete(id: string): Promise<void>;
 }
 

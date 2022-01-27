@@ -11,7 +11,7 @@ class GetAssessmentUseCase {
             if (!assessment) {
                 throw new Error("Avaliação não encontrada");
             }
-            if (assessment.user._id.valueOf() !== userId) {
+            if (assessment.user._id !== userId) {
                 throw new Error("Esta avaliação não pertence a este usuário");
             }
             return assessment;
@@ -20,7 +20,8 @@ class GetAssessmentUseCase {
         if (!assessments) {
             throw new Error("Avaliações não encontradas");
         }
-        return assessments.filter(assessment => assessment.user._id.valueOf() === userId);
+        const a = assessments.filter(assessment => assessment.user._id === userId);
+        return a;
     }
 }
 exports.GetAssessmentUseCase = GetAssessmentUseCase;

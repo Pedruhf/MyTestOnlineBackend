@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { Assessment } from "../../../models/AssessmentModel";
 import { GetAssessmentUseCase } from "./GetAssessmentUseCase";
 
 class GetAssessmentController {

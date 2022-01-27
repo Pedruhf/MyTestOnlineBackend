@@ -25,7 +25,7 @@ class ResetPasswordUseCase {
         const newPasswordEncrypted = bcrypt_1.default.hashSync(newPassword, 10);
         user.password = newPasswordEncrypted;
         user.passwordResetExpires = now;
-        await this.usersRepository.update(user.id, user);
+        await this.usersRepository.update(user._id, user);
         await nodeMailer_1.transporter.sendMail({
             to: user.email,
             from: process.env.MAIL_SENDER,

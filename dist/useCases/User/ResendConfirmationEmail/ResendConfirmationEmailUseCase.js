@@ -19,7 +19,7 @@ class ResendConfirmationEmailUseCase {
             to: email,
             from: process.env.MAIL_SENDER,
             subject: "Confirmação de e-mail",
-            html: (0, emailConfirmationHTML_1.emailConfirmationHTML)(user.id, user.name),
+            html: (0, emailConfirmationHTML_1.emailConfirmationHTML)(user._id, user.name),
         });
     }
 }

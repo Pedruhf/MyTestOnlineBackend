@@ -10,7 +10,7 @@ class MongoUserRepository implements IUsersRepository {
   }
 
   async findById(id: string): Promise<IUser> {
-    const user = await mongoUserModel.findOne({ id }).select("+password");
+    const user = await mongoUserModel.findById(id).select("+password");
     return user;
   }
 
@@ -24,11 +24,11 @@ class MongoUserRepository implements IUsersRepository {
   }
 
   async update(id: string, user: UpdateUserRequestDTO): Promise<void> {
-    await mongoUserModel.findOneAndUpdate({ id }, user);
+    await mongoUserModel.findByIdAndUpdate(id, user);
   }
 
   async delete(id: string): Promise<void> {
-    await mongoUserModel.findOneAndDelete({ id });
+    await mongoUserModel.findByIdAndDelete(id);
   }
 }
 

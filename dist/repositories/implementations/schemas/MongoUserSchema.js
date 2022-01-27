@@ -8,7 +8,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const nodeMailer_1 = require("../../../services/nodeMailer");
 const emailConfirmationHTML_1 = require("../../../utils/email/emailConfirmationHTML");
 const userSchema = new mongoose_1.default.Schema({
-    id: {
+    _id: {
         type: String,
         unique: true,
         required: true,
@@ -64,7 +64,7 @@ userSchema.pre("save", async function (next) {
         to: this.email,
         from: process.env.MAIL_SENDER,
         subject: "Confirmação de e-mail",
-        html: (0, emailConfirmationHTML_1.emailConfirmationHTML)(this.id, this.name),
+        html: (0, emailConfirmationHTML_1.emailConfirmationHTML)(this._id, this.name),
     });
     return next();
 });

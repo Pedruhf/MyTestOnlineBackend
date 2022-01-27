@@ -4,7 +4,7 @@ import { transporter as mailer } from "../../../services/nodeMailer";
 import { emailConfirmationHTML } from "../../../utils/email/emailConfirmationHTML";
 
 const userSchema = new mongoose.Schema<IUser>({
-  id: {
+  _id: {
     type: String,
     unique: true,
     required: true,
@@ -61,7 +61,7 @@ userSchema.pre("save", async function(next) {
     to: this.email,
     from: process.env.MAIL_SENDER,
     subject: "Confirmação de e-mail",
-    html: emailConfirmationHTML(this.id, this.name),
+    html: emailConfirmationHTML(this._id, this.name),
   });
   
   return next();

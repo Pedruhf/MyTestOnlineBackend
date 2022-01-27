@@ -28,11 +28,9 @@ class LoginUserUseCase {
 
     user.password = undefined;
 
-    console.log(user.id);
-
     return {
       user,
-      token: generateToken({ id: user.id }),
+      token: generateToken({ id: user._id }),
     };
   }
 }
