@@ -8,6 +8,7 @@ class UpdateQuestionController {
     async handle(req, res) {
         const { id } = req.params;
         try {
+            req.body.assessment = undefined;
             const questions = await this.updateQuestionUseCase.execute(id, req.body);
             return res.send(questions);
         }

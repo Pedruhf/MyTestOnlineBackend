@@ -7,8 +7,8 @@ class GetAnswerProfessorUseCase {
     }
     async execute(userId, assessmentId) {
         const answers = await this.answersRepository.findAll();
-        const filteredAnswers = answers.filter(answer => answer.assessment._id.valueOf() === assessmentId &&
-            answer.assessment.user.valueOf() === userId);
+        const filteredAnswers = answers.filter(answer => answer.user._id === userId &&
+            answer.assessment._id === assessmentId);
         return filteredAnswers;
     }
 }

@@ -1,26 +1,30 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MongoClassroomRepository = void 0;
-const ClassroomModel_1 = require("../../models/ClassroomModel");
+const MongoClassroomSchema_1 = require("./schemas/MongoClassroomSchema");
 class MongoClassroomRepository {
     async save(classroom) {
-        const newClassroom = await (await (await ClassroomModel_1.mongoClassroom.create(classroom)).populate(["user", "assessment"])).populate("assessment.questions");
+        var _a, _b;
+        const newClassroom = await ((_b = (await ((_a = (await MongoClassroomSchema_1.mongoClassroomModel.create(classroom))) === null || _a === void 0 ? void 0 : _a.populate(["user", "assessment"])))) === null || _b === void 0 ? void 0 : _b.populate("assessment.questions"));
         return newClassroom;
     }
     async findById(id) {
-        const classroom = await (await ClassroomModel_1.mongoClassroom.findById(id).populate(["user", "assessment"])).populate("assessment.questions");
-        classroom.assessment.user = undefined;
+        var _a, _b;
+        const classroom = await ((_b = (await ((_a = (await MongoClassroomSchema_1.mongoClassroomModel.findById(id))) === null || _a === void 0 ? void 0 : _a.populate(["user", "assessment"])))) === null || _b === void 0 ? void 0 : _b.populate("assessment.questions"));
+        if (classroom) {
+            classroom.assessment.user = undefined;
+        }
         return classroom;
     }
     async findAll() {
-        const classroom = await ClassroomModel_1.mongoClassroom.find();
+        const classroom = await MongoClassroomSchema_1.mongoClassroomModel.find();
         return classroom;
     }
     async update(id, classroom) {
-        await ClassroomModel_1.mongoClassroom.findByIdAndUpdate(id, classroom);
+        await MongoClassroomSchema_1.mongoClassroomModel.findByIdAndUpdate(id, classroom);
     }
     async delete(id) {
-        await ClassroomModel_1.mongoClassroom.findByIdAndDelete(id);
+        await MongoClassroomSchema_1.mongoClassroomModel.findByIdAndDelete(id);
     }
 }
 exports.MongoClassroomRepository = MongoClassroomRepository;

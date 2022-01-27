@@ -1,29 +1,14 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.mongoClassroom = void 0;
-const mongoose_1 = __importDefault(require("mongoose"));
-const classroomSchema = new mongoose_1.default.Schema({
-    name: {
-        type: String,
-        required: true,
-    },
-    user: {
-        type: mongoose_1.default.Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
-    },
-    assessment: {
-        type: mongoose_1.default.Schema.Types.ObjectId,
-        ref: "Assessment",
-        required: true,
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-});
-const mongoClassroom = mongoose_1.default.model("Classroom", classroomSchema);
-exports.mongoClassroom = mongoClassroom;
+exports.Classroom = void 0;
+const uuid_1 = require("uuid");
+class Classroom {
+    constructor(classroom) {
+        this._id = (0, uuid_1.v4)();
+        this.name = classroom.name;
+        this.user = classroom.user;
+        this.assessment = classroom.assessment;
+        this.createdAt = Date.now();
+    }
+}
+exports.Classroom = Classroom;

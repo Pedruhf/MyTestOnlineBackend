@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteClassroomController = exports.updateClassroomController = exports.createClassroomController = exports.getClassroomController = void 0;
 const MongoClassroomRepository_1 = require("../../repositories/implementations/MongoClassroomRepository");
+const Assessment_1 = require("../Assessment");
 const GetClassroomUseCase_1 = require("./GetClassroom/GetClassroomUseCase");
 const GetClassroomController_1 = require("./GetClassroom/GetClassroomController");
 const CreateClassroomUseCase_1 = require("./CreateClassroom/CreateClassroomUseCase");
@@ -14,10 +15,10 @@ const classroomsRepository = new MongoClassroomRepository_1.MongoClassroomReposi
 const getClassroomUseCase = new GetClassroomUseCase_1.GetClassroomUseCase(classroomsRepository);
 const getClassroomController = new GetClassroomController_1.GetClassroomController(getClassroomUseCase);
 exports.getClassroomController = getClassroomController;
-const createClassroomUseCase = new CreateClassroomUseCase_1.CreateClassroomUseCase(classroomsRepository);
+const createClassroomUseCase = new CreateClassroomUseCase_1.CreateClassroomUseCase(classroomsRepository, Assessment_1.assessmentsRepository);
 const createClassroomController = new CreateClassroomController_1.CreateClassroomController(createClassroomUseCase);
 exports.createClassroomController = createClassroomController;
-const updateClassroomUseCase = new UpdateClassroomUseCase_1.UpdateClassroomUseCase(classroomsRepository);
+const updateClassroomUseCase = new UpdateClassroomUseCase_1.UpdateClassroomUseCase(classroomsRepository, Assessment_1.assessmentsRepository);
 const updateClassroomController = new UpdateClassroomController_1.UpdateClassroomController(updateClassroomUseCase);
 exports.updateClassroomController = updateClassroomController;
 const deleteClassroomUseCase = new DeleteClassroomUseCase_1.DeleteClassroomUseCase(classroomsRepository);
