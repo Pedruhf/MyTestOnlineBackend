@@ -1,19 +1,8 @@
-import mongoose from "mongoose";
-
-type Alternative = {
-  marked: boolean;
-  description: string;
-}
-
-type Question = {
-  title?: string;
-  description: string;
-  alternatives: Alternative[];
-}
+import { IQuestion } from "../../../models/QuestionModel";
 
 interface ICreateAnswerRequestDTO {
-  assessment: mongoose.Schema.Types.ObjectId;
-  questions: Question[];
+  assessment: string;
+  questions: IQuestion[];
 }
 
 export { ICreateAnswerRequestDTO };

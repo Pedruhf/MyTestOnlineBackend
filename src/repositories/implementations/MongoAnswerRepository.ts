@@ -1,28 +1,29 @@
-import { Answer, mongoAnswer } from "../../models/AnswerModel";
+import { IAnswer} from "../../models/AnswerModel";
 import { IAnswersRepository } from "../IAnswersRepository";
+import { mongoAnswerModel } from "./schemas/MongoAnswerSchema";
 
 class MongoAnswerRepository implements IAnswersRepository {
-  async save(answer: Answer): Promise<Answer> {
-    const newAnswer = await mongoAnswer.create(answer);
+  async save(answer: IAnswer): Promise<IAnswer> {
+    const newAnswer = await mongoAnswerModel.create(answer);
     return newAnswer;
   }
 
-  async findById(id: string): Promise<Answer> {
-    const answer = await mongoAnswer.findById(id).populate(["user", "assessment"]);
+  async findById(id: string): Promise<IAnswer> {
+    const answer = await mongoAnswerModel.findById(id).populate(["user", "assessment"]);
     return answer;
   }
 
-  async findAll(): Promise<Answer[]> {
-    const answers = await mongoAnswer.find().populate(["user", "assessment"]);
+  async findAll(): Promise<IAnswer[]> {
+    const answers = await mongoAnswerModel.find().populate(["user", "assessment"]);
     return answers;
   }
 
-  async update(id: string, answer: Omit<Answer, "user" | "assessment">): Promise<void> {
-    await mongoAnswer.findByIdAndUpdate(id, answer);
+  async update(id: string, answer: Omit<IAnswer, "user" | "assessment">): Promise<void> {
+    await mongoAnswerModel.findByIdAndUpdate(id, answer);
   }
 
   async delete(id: string): Promise<void> {
-    await mongoAnswer.findByIdAndDelete(id);
+    await mongoAnswerModel.findByIdAndDelete(id);
   }
 }
 

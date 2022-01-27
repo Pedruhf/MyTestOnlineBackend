@@ -1,5 +1,6 @@
-import mongoose from "mongoose";
 import { Answer } from "../../../models/AnswerModel";
+import { IAssessment } from "../../../models/AssessmentModel";
+import { IUser } from "../../../models/UserModel";
 import { IAnswersRepository } from "../../../repositories/IAnswersRepository";
 import { ICreateAnswerRequestDTO } from "./CreateAnswerRequestDTO";
 
@@ -15,18 +16,20 @@ class CreateAnswerUseCase {
 
     allAnswers.forEach(answer => {
       if (
-        (answer.assessment as any)._id.valueOf() === data.assessment &&
-        answer.user.valueOf() === userId as unknown as mongoose.Schema.Types.ObjectId) {
+        ((answer.assessment as unknown as IAssessment)._id === data.assessment) &&
+        ((answer.user as unknown as IUser)._id === userId)
+      ) {
         throw new Error("Você já respondeu esta avaliação");
       }
     })
 
-    const aswner = await this.answersRepository.save({
-      ...data,
-      user: userId as unknown as mongoose.Schema.Types.ObjectId,
+    const answer = new Answer({
+      user: userId,
+      assessment: data.assessment,
+      questions: data.questions,
     });
 
-    return aswner;
+    return await this.answersRepository.save(answer);
   }
 }
 

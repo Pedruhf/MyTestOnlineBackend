@@ -1,5 +1,6 @@
-import mongoose from "mongoose";
 import { Answer } from "../../../models/AnswerModel";
+import { IAssessment } from "../../../models/AssessmentModel";
+import { IUser } from "../../../models/UserModel";
 import { IAnswersRepository } from "../../../repositories/IAnswersRepository";
 
 class GetAnswerProfessorUseCase {
@@ -12,10 +13,10 @@ class GetAnswerProfessorUseCase {
   async execute(userId: string, assessmentId: string): Promise<Answer[]> {
     const answers = await this.answersRepository.findAll();
     const filteredAnswers = answers.filter(answer =>
-      ((answer.assessment as any)._id.valueOf() as unknown as string) === assessmentId &&
-      (answer.assessment as any).user.valueOf() === userId
-      );
-
+      (answer.user as unknown as IUser)._id === userId &&
+      (answer.assessment as unknown as IAssessment)._id === assessmentId
+    );
+      
     return filteredAnswers;
   }
 }
