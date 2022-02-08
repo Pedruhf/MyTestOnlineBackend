@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
-// const DB = process.env.MONGO_URL;
-const DB = "mongodb://localhost/MyAuth";
+const DB = process.env.MONGO_URL;
+// const DB = "mongodb://localhost/MyAuth";
 mongoose_1.default.connect(DB);
 mongoose_1.default.connection.on("connected", () => { console.log("DB CONNECTED"); });
